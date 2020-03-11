@@ -68,10 +68,10 @@ public class Logic {
         return rst;
     }
 
-    public boolean isHorizontalWin(int[][] table, int numberOfHorizontal) {
+    public boolean isHorizontalWin(int[][] table, int row) {
         boolean result = true;
-        for (int numberOfVertical = 0; numberOfVertical < table[numberOfHorizontal].length; ++numberOfVertical) {
-            if (table[numberOfHorizontal][numberOfVertical] != 1) {
+        for (int column = 0; column < table[row].length; ++column) {
+            if (table[row][column] != 1) {
                 result= false;
                 break;
             }
@@ -79,10 +79,10 @@ public class Logic {
         return result;
     }
 
-    public boolean isVerticalWin(int[][] table, int numberOfVertical) {
+    public boolean isVerticalWin(int[][] table, int column) {
         boolean result = true;
-        for (int numberOfHorizontal = 0; numberOfHorizontal < table.length; ++numberOfHorizontal) {
-            if (table[numberOfHorizontal][numberOfVertical] != 1) {
+        for (int row = 0; row < table.length; ++row) {
+            if (table[row][column] != 1) {
                 result= false;
                 break;
             }
@@ -94,8 +94,11 @@ public class Logic {
         int[][] table = this.convert();
         boolean result = false;
         for (int index = 0; index < table.length; ++index) {
-            if (isHorizontalWin(table, index) || isVerticalWin(table, index)) {
-                result = true;
+            if (table[index][index] == 1) {
+                if (isHorizontalWin(table, index) || isVerticalWin(table, index)) {
+                    result = true;
+                    break;
+                }
             }
         }
         return result;
