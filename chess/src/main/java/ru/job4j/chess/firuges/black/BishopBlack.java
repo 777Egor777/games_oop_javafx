@@ -22,31 +22,44 @@ public class BishopBlack implements Figure {
 
     @Override
     public Cell[] way(Cell source, Cell dest) {
-        throw new IllegalStateException(
-                String.format("Could not way by diagonal from %s to %s", source, dest)
-        );
-//        if (!isDiagonal(source, dest)) {
-//            throw new IllegalStateException(
-//                    String.format("Could not way by diagonal from %s to %s", source, dest)
-//            );
-//        }
-//        int size = ...;
-//        Cell[] steps = new Cell[size];
-//        int deltaX = ...;
-//        int deltaY = ...;
-//        for (int index = 0; index < size; index++) {
-//            steps[index] = ...
-//        }
-//        return steps;
+        if (!isDiagonal(source, dest)) {
+            throw new IllegalStateException(
+                    String.format("Could not way by diagonal from %s to %s", source, dest)
+            );
+        }
+        int size = Math.abs(dest.x - source.x);
+        Cell[] steps = new Cell[size];
+        int deltaX = dest.x - source.x;
+        deltaX /= Math.abs(deltaX);
+        int deltaY = dest.y - source.y;
+        deltaY /= Math.abs(deltaY);
+        int x = source.x;
+        int y = source.y;
+        for (int index = 0; index < size; index++) {
+            x += deltaX;
+            y += deltaY;
+            steps[index] = Cell.findBy(x, y);
+        }
+        return steps;
     }
 
     public boolean isDiagonal(Cell source, Cell dest) {
-        //TODO check diagonal
-        return false;
+        return Math.abs(dest.x - source.x)
+                == Math.abs(dest.y - source.y);
     }
 
     @Override
     public Figure copy(Cell dest) {
         return new BishopBlack(dest);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean result = false;
+        if (obj != null && obj.getClass() == getClass()) {
+            BishopBlack other = (BishopBlack)obj;
+            result = position.equals(other.position());
+        }
+        return result;
     }
 }

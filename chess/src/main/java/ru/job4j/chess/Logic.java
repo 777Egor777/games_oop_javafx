@@ -21,12 +21,23 @@ public class Logic {
         this.figures[this.index++] = figure;
     }
 
+    private boolean hasNoObstacle(Cell[] steps) {
+        boolean result = true;
+        for (Cell cell : steps) {
+            if (findBy(cell) != -1) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
     public boolean move(Cell source, Cell dest) {
         boolean rst = false;
         int index = this.findBy(source);
         if (index != -1) {
             Cell[] steps = this.figures[index].way(source, dest);
-            if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
+            if (steps.length > 0 && steps[steps.length - 1].equals(dest) && hasNoObstacle(steps)) {
                 rst = true;
                 this.figures[index] = this.figures[index].copy(dest);
             }
